@@ -29,7 +29,7 @@ spec:
               mountPath: /etc/git-repo
       containers:
         - name: consumer 
-          image: nichemley/fs-python-consumer-image 
+          image: nichemley/fs-producer-consumer-image 
           args: ['/bin/bash', '/etc/config/start-consumer.sh']
           volumeMounts:
             - name: git-repo-rw

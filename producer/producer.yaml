@@ -15,41 +15,31 @@ spec:
         app: producer 
     spec:
       initContainers:
-        - name: git-clone
+        - name: git-repo
           image: alpine/git
           args:
             - clone
             - --
             - https://github.com/iamniche-too/fs-python
-            - /usr/local/fs-python
+            - /etc/git-repo
           securityContext:
             runAsUser: 0 
           volumeMounts:
             - name: git-repo-rw
-              mountPath: /usr/local/fs-python
-        #- name: python-init
-        #  image: ubuntu 
-        #  command: ['/bin/bash', '/etc/python-init/init-producer.sh']
-        #  securityContext:
-        #    runAsUser: 0
-        #  volumeMounts:
-        #    - name: git-repo-rw
-        #      mountPath: /usr/local/fs-python
-        #    - name: python-init-ro
-        #      mountPath: /etc/python-init
+              mountPath: /etc/git-repo
       containers:
         - name: consumer 
-          image: ubuntu 
-          args: ['/bin/bash', '/etc/python-init/start-producer.sh']
+          image: nichemley/fs-producer-consumer-image 
+          args: ['/bin/bash', '/etc/config/start-producer.sh']
           volumeMounts:
             - name: git-repo-rw
-              mountPath: /usr/local/fs-python
-            - name: python-init-ro
-              mountPath: /etc/python-init
+              mountPath: /etc/git-repo
+            - name: git-repo-ro
+              mountPath: /etc/config
       volumes:
         - name: git-repo-rw
           emptyDir: {}
-        - name: python-init-ro
+        - name: git-repo-ro
           configMap:
-            name: python-init 
+            name: init-producer
 status: {}

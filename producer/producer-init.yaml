@@ -1,34 +1,14 @@
 kind: ConfigMap
 metadata:
-  name: python-init 
+  name: init-producer
   namespace: producer-consumer 
 apiVersion: v1
 data:
-
-  init-producer.sh: |-
-    #!/bin/bash
-    set -e
-    set -x
-
-    apt-get update
-    apt-get install --assume-yes python3-venv python3-pip
-
-    pip3 install --no-cache-dir --upgrade pip
-
-    # generate the virtual environment
-    python3 -m venv /usr/local/fs-python/env
-
-    # install libs 
-    pip install --no-cache-dir -r /usr/local/fs-python/requirements.txt
-
   start-producer.sh: |-
     #!/bin/bash
     set -e
     set -x
 
-    apt-get update
-    apt-get install --assume-yes python3-venv python3-pip
+    echo "Starting Producer..."
 
-    echo "Running Producer..."
-
-    source /usr/local/fs-python/env/bin/activate && cd /usr/local/fs-python && python3 producer.py
+    source /usr/local/python/env/bin/activate && cd /usr/local/python && python3 /etc/git-repo/producer.py
