@@ -5,6 +5,7 @@ metadata:
   name: consumer
   namespace: producer-consumer
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: consumer
@@ -22,15 +23,13 @@ spec:
             - https://github.com/iamniche-too/fs-python
             - /usr/local/fs-python
           securityContext:
-            runAsUser: 1
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
+            runAsUser: 0 
           volumeMounts:
             - name: git-repo-rw
               mountPath: /usr/local/fs-python
         - name: python-init
           image: ubuntu 
-          command: ['/bin/bash', '/etc/python-init/init.sh']
+          command: ['/bin/bash', '/etc/python-init/init-consumer.sh']
           securityContext:
             runAsUser: 0
           volumeMounts:
@@ -39,9 +38,9 @@ spec:
             - name: python-init-ro
               mountPath: /etc/python-init
       containers:
-        - name: busybox
-          image: busybox
-          args: ['tail', '-f', '/dev/null']
+        - name: consumer 
+          image: ubuntu 
+          args: ['/bin/bash', '/etc/python-init/start-consumer.sh']
           volumeMounts:
             - name: git-repo-rw
               mountPath: /usr/local/fs-python

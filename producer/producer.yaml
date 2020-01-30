@@ -1,22 +1,57 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment 
 metadata:
-  name: consumer 
-  namespace: producer-consumer 
+  name: producer 
+  namespace: producer-consumer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: consumer0 
+      app: producer 
   template:
     metadata:
       labels:
-        run: zoo0
+        app: producer 
     spec:
-      hostname: zoo1
+      initContainers:
+        - name: git-clone
+          image: alpine/git
+          args:
+            - clone
+            - --
+            - https://github.com/iamniche-too/fs-python
+            - /usr/local/fs-python
+          securityContext:
+            runAsUser: 1
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: git-repo-rw
+              mountPath: /usr/local/fs-python
+        - name: python-init
+          image: ubuntu 
+          command: ['/bin/bash', '/etc/python-init/init-producer.sh']
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: git-repo-rw
+              mountPath: /usr/local/fs-python
+            - name: python-init-ro
+              mountPath: /etc/python-init
       containers:
         - name: consumer 
-          image: zookeeper:3.4.14
-          resources: {}
+          image: ubuntu 
+          args: ['/bin/bash', '/etc/python-init/start-producer.sh']
+          volumeMounts:
+            - name: git-repo-rw
+              mountPath: /usr/local/fs-python
+            - name: python-init-ro
+              mountPath: /etc/python-init
+      volumes:
+        - name: git-repo-rw
+          emptyDir: {}
+        - name: python-init-ro
+          configMap:
+            name: python-init 
 status: {}

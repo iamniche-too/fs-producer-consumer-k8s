@@ -5,7 +5,7 @@ metadata:
 apiVersion: v1
 data:
 
-  init-consumer.sh: |-
+  init-producer.sh: |-
     #!/bin/bash
     set -e
     set -x
@@ -25,11 +25,11 @@ data:
     # install libs 
     pip install --no-cache-dir -r /usr/local/fs-python/requirements.txt
 
-  start-consumer.sh: |-
+  start-producer.sh: |-
     #!/bin/bash
     set -e
     set -x
 
-    echo "Running Consumer..."
+    echo "Running Producer..."
 
-    source /usr/local/fs-python/env/bin/activate && cd /usr/local/fs-python && python3 consumer.py
+    source /usr/local/fs-python/env/bin/activate && cd /usr/local/fs-python && python3 producer.py
