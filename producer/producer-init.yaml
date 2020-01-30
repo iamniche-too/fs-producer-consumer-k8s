@@ -11,16 +11,12 @@ data:
     set -x
 
     apt-get update
-
     apt-get install --assume-yes python3-venv python3-pip
 
     pip3 install --no-cache-dir --upgrade pip
 
     # generate the virtual environment
     python3 -m venv /usr/local/fs-python/env
-
-    # activate the virtual environment
-    /usr/local/fs-python/env/bin/activate
 
     # install libs 
     pip install --no-cache-dir -r /usr/local/fs-python/requirements.txt
@@ -29,6 +25,9 @@ data:
     #!/bin/bash
     set -e
     set -x
+
+    apt-get update
+    apt-get install --assume-yes python3-venv python3-pip
 
     echo "Running Producer..."
 

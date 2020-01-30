@@ -23,22 +23,20 @@ spec:
             - https://github.com/iamniche-too/fs-python
             - /usr/local/fs-python
           securityContext:
-            runAsUser: 1
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
+            runAsUser: 0 
           volumeMounts:
             - name: git-repo-rw
               mountPath: /usr/local/fs-python
-        - name: python-init
-          image: ubuntu 
-          command: ['/bin/bash', '/etc/python-init/init-producer.sh']
-          securityContext:
-            runAsUser: 0
-          volumeMounts:
-            - name: git-repo-rw
-              mountPath: /usr/local/fs-python
-            - name: python-init-ro
-              mountPath: /etc/python-init
+        #- name: python-init
+        #  image: ubuntu 
+        #  command: ['/bin/bash', '/etc/python-init/init-producer.sh']
+        #  securityContext:
+        #    runAsUser: 0
+        #  volumeMounts:
+        #    - name: git-repo-rw
+        #      mountPath: /usr/local/fs-python
+        #    - name: python-init-ro
+        #      mountPath: /etc/python-init
       containers:
         - name: consumer 
           image: ubuntu 
