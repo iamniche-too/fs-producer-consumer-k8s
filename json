@@ -1,0 +1,266 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "cni.projectcalico.org/podIP": "10.16.1.10/32"
+                },
+                "creationTimestamp": "2020-01-30T16:59:33Z",
+                "generateName": "consumer-7fbc9d7c88-",
+                "labels": {
+                    "pod-template-hash": "7fbc9d7c88",
+                    "run": "consumer"
+                },
+                "name": "consumer-7fbc9d7c88-b4jpf",
+                "namespace": "producer-consumer",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "consumer-7fbc9d7c88",
+                        "uid": "86f5cac2-14e6-4067-ad79-28782c7a15fb"
+                    }
+                ],
+                "resourceVersion": "30044",
+                "selfLink": "/api/v1/namespaces/producer-consumer/pods/consumer-7fbc9d7c88-b4jpf",
+                "uid": "f9604608-f117-481c-b8bf-32bebda13600"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/usr/bin/start-consumer.sh",
+                            "",
+                            ""
+                        ],
+                        "image": "busybox",
+                        "imagePullPolicy": "Always",
+                        "name": "busybox",
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/usr/local/fs-python",
+                                "name": "git-repo-rw"
+                            },
+                            {
+                                "mountPath": "/etc/python-init",
+                                "name": "python-init-ro"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-m7jnx",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "initContainers": [
+                    {
+                        "args": [
+                            "clone",
+                            "--",
+                            "https://github.com/iamniche-too/fs-python",
+                            "/usr/local/fs-python"
+                        ],
+                        "image": "alpine/git",
+                        "imagePullPolicy": "Always",
+                        "name": "git-clone",
+                        "resources": {},
+                        "securityContext": {
+                            "allowPrivilegeEscalation": false,
+                            "readOnlyRootFilesystem": true,
+                            "runAsUser": 1
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/usr/local/fs-python",
+                                "name": "git-repo-rw"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-m7jnx",
+                                "readOnly": true
+                            }
+                        ]
+                    },
+                    {
+                        "command": [
+                            "/bin/bash",
+                            "/etc/python-init/init.sh"
+                        ],
+                        "image": "ubuntu",
+                        "imagePullPolicy": "Always",
+                        "name": "python-init",
+                        "resources": {},
+                        "securityContext": {
+                            "runAsUser": 0
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/usr/local/fs-python",
+                                "name": "git-repo-rw"
+                            },
+                            {
+                                "mountPath": "/etc/python-init",
+                                "name": "python-init-ro"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-m7jnx",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "nodeName": "gke-gke-kafka-cluster-default-fafa4ebe-3370",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "git-repo-rw"
+                    },
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "python-init"
+                        },
+                        "name": "python-init-ro"
+                    },
+                    {
+                        "name": "default-token-m7jnx",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "default-token-m7jnx"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-01-30T16:59:33Z",
+                        "message": "containers with incomplete status: [python-init]",
+                        "reason": "ContainersNotInitialized",
+                        "status": "False",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-01-30T16:59:33Z",
+                        "message": "containers with unready status: [busybox]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-01-30T16:59:33Z",
+                        "message": "containers with unready status: [busybox]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-01-30T16:59:33Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "image": "busybox",
+                        "imageID": "",
+                        "lastState": {},
+                        "name": "busybox",
+                        "ready": false,
+                        "restartCount": 0,
+                        "state": {
+                            "waiting": {
+                                "reason": "PodInitializing"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.16.4",
+                "initContainerStatuses": [
+                    {
+                        "containerID": "docker://efd834bc3a0227a5f36b4e4afd886a102ee38ff2907843d954f9917dc3a060c3",
+                        "image": "alpine/git:latest",
+                        "imageID": "docker-pullable://alpine/git@sha256:8f5659025d83a60e9d140123bb1b27f3c334578aef10d002da4e5848580f1a6c",
+                        "lastState": {},
+                        "name": "git-clone",
+                        "ready": true,
+                        "restartCount": 0,
+                        "state": {
+                            "terminated": {
+                                "containerID": "docker://efd834bc3a0227a5f36b4e4afd886a102ee38ff2907843d954f9917dc3a060c3",
+                                "exitCode": 0,
+                                "finishedAt": "2020-01-30T16:59:37Z",
+                                "reason": "Completed",
+                                "startedAt": "2020-01-30T16:59:35Z"
+                            }
+                        }
+                    },
+                    {
+                        "containerID": "docker://5499ba4295f4dd2f193945ee4837d963e4344ee4fb94ccf6cfb93f4106cbd15a",
+                        "image": "ubuntu:latest",
+                        "imageID": "docker-pullable://ubuntu@sha256:bc025862c3e8ec4a8754ea4756e33da6c41cba38330d7e324abd25c8e0b93300",
+                        "lastState": {},
+                        "name": "python-init",
+                        "ready": false,
+                        "restartCount": 0,
+                        "state": {
+                            "running": {
+                                "startedAt": "2020-01-30T16:59:39Z"
+                            }
+                        }
+                    }
+                ],
+                "phase": "Pending",
+                "podIP": "10.16.1.10",
+                "qosClass": "BestEffort",
+                "startTime": "2020-01-30T16:59:33Z"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

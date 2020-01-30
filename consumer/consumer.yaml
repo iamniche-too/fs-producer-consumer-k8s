@@ -1,22 +1,56 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment 
 metadata:
-  name: consumer 
-  namespace: producer-consumer 
+  name: consumer
+  namespace: producer-consumer
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      run: consumer 
+      app: consumer
   template:
     metadata:
       labels:
-        run: consumer 
+        app: consumer
     spec:
-      hostname: consumer 
+      initContainers:
+        - name: git-clone
+          image: alpine/git
+          args:
+            - clone
+            - --
+            - https://github.com/iamniche-too/fs-python
+            - /usr/local/fs-python
+          securityContext:
+            runAsUser: 1
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: git-repo-rw
+              mountPath: /usr/local/fs-python
+        - name: python-init
+          image: ubuntu 
+          command: ['/bin/bash', '/etc/python-init/init.sh']
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: git-repo-rw
+              mountPath: /usr/local/fs-python
+            - name: python-init-ro
+              mountPath: /etc/python-init
       containers:
-        - name: consumer 
-          image: nichemley/fs-python-consumer-image 
-          resources: {}
+        - name: busybox
+          image: busybox
+          args: ['tail', '-f', '/dev/null']
+          volumeMounts:
+            - name: git-repo-rw
+              mountPath: /usr/local/fs-python
+            - name: python-init-ro
+              mountPath: /etc/python-init
+      volumes:
+        - name: git-repo-rw
+          emptyDir: {}
+        - name: python-init-ro
+          configMap:
+            name: python-init 
 status: {}

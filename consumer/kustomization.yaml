@@ -5,3 +5,4 @@ namespace: producer-consumer
 
 resources:
   - consumer.yaml
+  - consumer-init.yaml
