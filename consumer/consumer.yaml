@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer 
+  namespace: producer-consumer 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: consumer 
+  template:
+    metadata:
+      labels:
+        run: consumer 
+    spec:
+      hostname: consumer 
+      containers:
+        - name: consumer 
+          image: nichemley/fs-python-consumer-image 
+          resources: {}
+status: {}

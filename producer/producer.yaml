@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer 
+  namespace: producer-consumer 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: consumer0 
+  template:
+    metadata:
+      labels:
+        run: zoo0
+    spec:
+      hostname: zoo1
+      containers:
+        - name: consumer 
+          image: zookeeper:3.4.14
+          resources: {}
+status: {}
