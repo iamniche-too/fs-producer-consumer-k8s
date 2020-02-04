@@ -1,0 +1,446 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "cni.projectcalico.org/podIP": "10.16.2.5/32"
+                },
+                "creationTimestamp": "2020-02-04T16:13:13Z",
+                "generateName": "consumer-77bc5dd699-",
+                "labels": {
+                    "app": "consumer",
+                    "pod-template-hash": "77bc5dd699"
+                },
+                "name": "consumer-77bc5dd699-tx9f8",
+                "namespace": "producer-consumer",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "consumer-77bc5dd699",
+                        "uid": "eef232db-6082-425e-a3e0-be318af7bcc7"
+                    }
+                ],
+                "resourceVersion": "35665",
+                "selfLink": "/api/v1/namespaces/producer-consumer/pods/consumer-77bc5dd699-tx9f8",
+                "uid": "0d911c47-edfb-4498-8c22-b6f315ed96f3"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/bash",
+                            "tail -f",
+                            "/dev/null`"
+                        ],
+                        "image": "nichemley/fs-producer-consumer-image",
+                        "imagePullPolicy": "Always",
+                        "name": "consumer",
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/git-repo",
+                                "name": "git-repo-rw"
+                            },
+                            {
+                                "mountPath": "/etc/config",
+                                "name": "git-repo-ro"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-wfqfk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "initContainers": [
+                    {
+                        "args": [
+                            "clone",
+                            "--",
+                            "https://github.com/iamniche-too/fs-python",
+                            "/etc/git-repo"
+                        ],
+                        "image": "alpine/git",
+                        "imagePullPolicy": "Always",
+                        "name": "git-repo",
+                        "resources": {},
+                        "securityContext": {
+                            "runAsUser": 0
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/git-repo",
+                                "name": "git-repo-rw"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-wfqfk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "nodeName": "gke-gke-kafka-cluster-default-a308418c-3l6g",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "git-repo-rw"
+                    },
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "init-consumer"
+                        },
+                        "name": "git-repo-ro"
+                    },
+                    {
+                        "name": "default-token-wfqfk",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "default-token-wfqfk"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-02-04T16:13:18Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-02-04T16:13:13Z",
+                        "message": "containers with unready status: [consumer]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-02-04T16:13:13Z",
+                        "message": "containers with unready status: [consumer]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-02-04T16:13:13Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://36a16c3f46771d953bc2a220681c565824c989092f38b9210d53fe722c349bf6",
+                        "image": "nichemley/fs-producer-consumer-image:latest",
+                        "imageID": "docker-pullable://nichemley/fs-producer-consumer-image@sha256:08570fbfe3b1d815096f3d82f0685c462d6abfae8d368549128675598d460781",
+                        "lastState": {
+                            "terminated": {
+                                "containerID": "docker://36a16c3f46771d953bc2a220681c565824c989092f38b9210d53fe722c349bf6",
+                                "exitCode": 127,
+                                "finishedAt": "2020-02-04T16:19:47Z",
+                                "reason": "Error",
+                                "startedAt": "2020-02-04T16:19:47Z"
+                            }
+                        },
+                        "name": "consumer",
+                        "ready": false,
+                        "restartCount": 6,
+                        "state": {
+                            "waiting": {
+                                "message": "Back-off 5m0s restarting failed container=consumer pod=consumer-77bc5dd699-tx9f8_producer-consumer(0d911c47-edfb-4498-8c22-b6f315ed96f3)",
+                                "reason": "CrashLoopBackOff"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.16.5",
+                "initContainerStatuses": [
+                    {
+                        "containerID": "docker://547cb2db043854f9e130b85f26cecb254d673c44db0447337a7403753fcffe29",
+                        "image": "alpine/git:latest",
+                        "imageID": "docker-pullable://alpine/git@sha256:8f5659025d83a60e9d140123bb1b27f3c334578aef10d002da4e5848580f1a6c",
+                        "lastState": {},
+                        "name": "git-repo",
+                        "ready": true,
+                        "restartCount": 0,
+                        "state": {
+                            "terminated": {
+                                "containerID": "docker://547cb2db043854f9e130b85f26cecb254d673c44db0447337a7403753fcffe29",
+                                "exitCode": 0,
+                                "finishedAt": "2020-02-04T16:13:18Z",
+                                "reason": "Completed",
+                                "startedAt": "2020-02-04T16:13:16Z"
+                            }
+                        }
+                    }
+                ],
+                "phase": "Running",
+                "podIP": "10.16.2.5",
+                "qosClass": "BestEffort",
+                "startTime": "2020-02-04T16:13:13Z"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "annotations": {
+                    "cni.projectcalico.org/podIP": "10.16.0.18/32"
+                },
+                "creationTimestamp": "2020-02-04T16:13:13Z",
+                "generateName": "producer-656bd6c467-",
+                "labels": {
+                    "app": "producer",
+                    "pod-template-hash": "656bd6c467"
+                },
+                "name": "producer-656bd6c467-7lqpf",
+                "namespace": "producer-consumer",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "ReplicaSet",
+                        "name": "producer-656bd6c467",
+                        "uid": "1a88ede7-7326-4965-a066-63826daf8733"
+                    }
+                ],
+                "resourceVersion": "35546",
+                "selfLink": "/api/v1/namespaces/producer-consumer/pods/producer-656bd6c467-7lqpf",
+                "uid": "baf07bcc-b20f-4e03-b0ae-12f3026ca23b"
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "args": [
+                            "/bin/bash",
+                            "tail -f",
+                            "/dev/null`"
+                        ],
+                        "image": "nichemley/fs-producer-consumer-image",
+                        "imagePullPolicy": "Always",
+                        "name": "consumer",
+                        "resources": {},
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/git-repo",
+                                "name": "git-repo-rw"
+                            },
+                            {
+                                "mountPath": "/etc/config",
+                                "name": "git-repo-ro"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-wfqfk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "dnsPolicy": "ClusterFirst",
+                "enableServiceLinks": true,
+                "initContainers": [
+                    {
+                        "args": [
+                            "clone",
+                            "--",
+                            "https://github.com/iamniche-too/fs-python",
+                            "/etc/git-repo"
+                        ],
+                        "image": "alpine/git",
+                        "imagePullPolicy": "Always",
+                        "name": "git-repo",
+                        "resources": {},
+                        "securityContext": {
+                            "runAsUser": 0
+                        },
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "volumeMounts": [
+                            {
+                                "mountPath": "/etc/git-repo",
+                                "name": "git-repo-rw"
+                            },
+                            {
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                                "name": "default-token-wfqfk",
+                                "readOnly": true
+                            }
+                        ]
+                    }
+                ],
+                "nodeName": "gke-gke-kafka-cluster-default-a308418c-l2wd",
+                "priority": 0,
+                "restartPolicy": "Always",
+                "schedulerName": "default-scheduler",
+                "securityContext": {},
+                "serviceAccount": "default",
+                "serviceAccountName": "default",
+                "terminationGracePeriodSeconds": 30,
+                "tolerations": [
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/not-ready",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    },
+                    {
+                        "effect": "NoExecute",
+                        "key": "node.kubernetes.io/unreachable",
+                        "operator": "Exists",
+                        "tolerationSeconds": 300
+                    }
+                ],
+                "volumes": [
+                    {
+                        "emptyDir": {},
+                        "name": "git-repo-rw"
+                    },
+                    {
+                        "configMap": {
+                            "defaultMode": 420,
+                            "name": "init-producer"
+                        },
+                        "name": "git-repo-ro"
+                    },
+                    {
+                        "name": "default-token-wfqfk",
+                        "secret": {
+                            "defaultMode": 420,
+                            "secretName": "default-token-wfqfk"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "conditions": [
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-02-04T16:13:19Z",
+                        "status": "True",
+                        "type": "Initialized"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-02-04T16:13:13Z",
+                        "message": "containers with unready status: [consumer]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "Ready"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-02-04T16:13:13Z",
+                        "message": "containers with unready status: [consumer]",
+                        "reason": "ContainersNotReady",
+                        "status": "False",
+                        "type": "ContainersReady"
+                    },
+                    {
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "2020-02-04T16:13:13Z",
+                        "status": "True",
+                        "type": "PodScheduled"
+                    }
+                ],
+                "containerStatuses": [
+                    {
+                        "containerID": "docker://99d56a945b65eb90dff9376c4bf6c0f5b3bd923d64a8b23510850a48c205beb1",
+                        "image": "nichemley/fs-producer-consumer-image:latest",
+                        "imageID": "docker-pullable://nichemley/fs-producer-consumer-image@sha256:08570fbfe3b1d815096f3d82f0685c462d6abfae8d368549128675598d460781",
+                        "lastState": {
+                            "terminated": {
+                                "containerID": "docker://99d56a945b65eb90dff9376c4bf6c0f5b3bd923d64a8b23510850a48c205beb1",
+                                "exitCode": 127,
+                                "finishedAt": "2020-02-04T16:19:19Z",
+                                "reason": "Error",
+                                "startedAt": "2020-02-04T16:19:19Z"
+                            }
+                        },
+                        "name": "consumer",
+                        "ready": false,
+                        "restartCount": 6,
+                        "state": {
+                            "waiting": {
+                                "message": "Back-off 5m0s restarting failed container=consumer pod=producer-656bd6c467-7lqpf_producer-consumer(baf07bcc-b20f-4e03-b0ae-12f3026ca23b)",
+                                "reason": "CrashLoopBackOff"
+                            }
+                        }
+                    }
+                ],
+                "hostIP": "10.0.16.3",
+                "initContainerStatuses": [
+                    {
+                        "containerID": "docker://8b3fe529e8298b590629cd77514d89ed41cfa74a6e61238ff62293233d73195b",
+                        "image": "alpine/git:latest",
+                        "imageID": "docker-pullable://alpine/git@sha256:8f5659025d83a60e9d140123bb1b27f3c334578aef10d002da4e5848580f1a6c",
+                        "lastState": {},
+                        "name": "git-repo",
+                        "ready": true,
+                        "restartCount": 0,
+                        "state": {
+                            "terminated": {
+                                "containerID": "docker://8b3fe529e8298b590629cd77514d89ed41cfa74a6e61238ff62293233d73195b",
+                                "exitCode": 0,
+                                "finishedAt": "2020-02-04T16:13:18Z",
+                                "reason": "Completed",
+                                "startedAt": "2020-02-04T16:13:16Z"
+                            }
+                        }
+                    }
+                ],
+                "phase": "Running",
+                "podIP": "10.16.0.18",
+                "qosClass": "BestEffort",
+                "startTime": "2020-02-04T16:13:13Z"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": "",
+        "selfLink": ""
+    }
+}

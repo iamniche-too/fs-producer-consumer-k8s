@@ -10,5 +10,6 @@ data:
     set -x
 
     echo "Starting Consumer..."
+    sleep 30
 
     source /usr/local/python/env/bin/activate && cd /usr/local/python && python3 /etc/git-repo/consumer.py
