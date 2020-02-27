@@ -20,7 +20,7 @@ spec:
           args:
             - clone
             - --
-            - https://github.com/iamniche-too/fs-python
+            - https://github.com/jezaustin/fs-python
             - /etc/git-repo
           securityContext:
             runAsUser: 0 

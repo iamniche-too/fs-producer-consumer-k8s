@@ -9,6 +9,8 @@ data:
     set -e
     set -x
 
-    echo "Starting Consumer..."
+    ENDPOINT_URL=http://localhost:8080
+
+    echo "Starting Consumer with endpoint $ENDPOINT_URL"
 
     source /usr/local/python/env/bin/activate && cd /usr/local/python && python3 /etc/git-repo/consumer.py
