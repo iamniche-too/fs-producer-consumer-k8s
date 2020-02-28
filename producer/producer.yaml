@@ -5,7 +5,7 @@ metadata:
   name: producer 
   namespace: producer-consumer
 spec:
-  replicas: 1
+  replicas: 0 
   selector:
     matchLabels:
       app: producer 
@@ -28,7 +28,7 @@ spec:
             - name: git-repo-rw
               mountPath: /etc/git-repo
       containers:
-        - name: consumer 
+        - name: producer 
           image: nichemley/fs-producer-consumer-image
           args: ['/bin/bash', '/etc/config/start-producer.sh']
           volumeMounts:
