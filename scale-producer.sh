@@ -1,1 +1,1 @@
-kubectl -n producer-consumer scale deployments producer --replicas=1 --kubeconfig ./kubeconfig.yaml
+kubectl -n producer-consumer scale deployments producer --replicas=0 --kubeconfig ./kubeconfig.yaml
