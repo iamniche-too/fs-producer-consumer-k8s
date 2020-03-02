@@ -9,7 +9,9 @@ data:
     set -e
     set -x
 
-    ENDPOINT_URL=http://localhost:8080
+    # Note - needs to be exported to ensure it is picked up by python process
+    # export ENDPOINT_URL=http://localhost:8080
+    export ENDPOINT_URL=print
 
     echo "Starting Consumer with endpoint $ENDPOINT_URL"
 
