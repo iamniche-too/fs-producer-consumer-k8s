@@ -25,6 +25,13 @@ spec:
               topologyKey: "kubernetes.io/hostname"
               namespaces:
                 - kafka 
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values: ["consumer"]
+              topologyKey: "kubernetes.io/hostname"
       initContainers:
         - name: git-repo
           image: alpine/git
