@@ -54,6 +54,11 @@ spec:
               mountPath: /etc/git-repo
             - name: git-repo-ro
               mountPath: /etc/config
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name 
       volumes:
         - name: git-repo-rw
           emptyDir: {}
