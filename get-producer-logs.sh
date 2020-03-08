@@ -1,4 +1,4 @@
-./export-gcp-credentials.sh
+source ./export-gcp-credentials.sh
 ./generate-cluster-connection-yaml.sh
 
 POD_NAME=`kubectl -n producer-consumer get pods -o jsonpath='{$.items[1].metadata.name}' --kubeconfig ./kubeconfig.yaml`
