@@ -9,7 +9,6 @@ data:
     set -e
     set -x
 
-    echo "Starting Producer..."
-    export MESSAGE_SIZE_KB="75"
+    echo "[start-producer.sh] Starting Producer..."
 
-    source /usr/local/python/env/bin/activate && cd /usr/local/python && python3 /etc/git-repo/producer.py
+    source /usr/local/python/env/bin/activate && cd /usr/local/python && python3 -u /etc/git-repo/producer.py
