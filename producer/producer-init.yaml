@@ -11,4 +11,4 @@ data:
 
     echo "[start-producer.sh] Starting Producer..."
 
-    source /usr/local/python/env/bin/activate && cd /usr/local/python && python3 -u /etc/git-repo/producer.py
+    source /usr/local/python/env/bin/activate && cd /usr/local/python && python3 -u /etc/git-repo/producer.py 2>&1
