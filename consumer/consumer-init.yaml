@@ -12,4 +12,4 @@ data:
     echo "[start-consumer.sh] - Starting Consumer (v2) ..."
 
     # needs python3.7 for asyncio
-    source /usr/local/python/env/bin/activate && cd /usr/local/python && python3.7 -u /etc/git-repo/fs-consumer2.py 2>&1
+    source /usr/local/python/env/bin/activate && cd /usr/local/python && python3.7 -u /etc/git-repo/fs_consumer2.py 2>&1
