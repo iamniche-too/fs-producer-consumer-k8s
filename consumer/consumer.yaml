@@ -19,7 +19,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                - key: producer-consumer-node 
+                - key: consumer-node 
                   operator: In
                   values: ["true"]
         podAntiAffinity:
